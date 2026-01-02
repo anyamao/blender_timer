@@ -83,10 +83,7 @@ function CameraController() {
 
       const lookDirection = new THREE.Vector3();
       camera.getWorldDirection(lookDirection);
-      controlsRef.current.target
-        .copy(camera.position)
-        .add(lookDirection.multiplyScalar(10));
-      controlsRef.current.target.y = 10;
+      controlsRef.current.target.copy(camera.position).add(lookDirection);
 
       setLastPosition(camera.position.clone());
     }
