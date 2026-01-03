@@ -12,18 +12,21 @@ import { useKeyboardControls } from "@react-three/drei";
 
 function CameraController() {
   const [subscribeKeys, getKeys] = useKeyboardControls();
+  const [Play, setPlay] = useState(false);
   const controlsRef = useRef<any>();
   const [lastPosition, setLastPosition] = useState(new THREE.Vector3(5, 5, 5));
   const isUserInteractingRef = useRef(false);
 
   useEffect(() => {
     const unsubscribe = subscribeKeys((state) => {
+      /*
       console.log("Key state:", {
         forward: state.forward,
         backward: state.backward,
         left: state.left,
         right: state.right,
       });
+          */
     });
 
     const controls = controlsRef.current;
@@ -73,10 +76,18 @@ function CameraController() {
         camera.position.addScaledVector(forwardVector, -moveSpeed);
       }
       if (left) {
-        camera.position.addScaledVector(rightVector, -moveSpeed);
+        camera.position.addScaledVector(rightVector, moveSpeed);
       }
       if (right) {
-        camera.position.addScaledVector(rightVector, moveSpeed);
+        camera.position.addScaledVector(rightVector, -moveSpeed);
+      }
+
+      if (camera.position.z < -10 && Play === false) {
+        setPlay(true);
+        console.log("reached");
+      }
+      if (Play) {
+        console.log("blue");
       }
 
       camera.position.y = 10;
@@ -95,6 +106,7 @@ function CameraController() {
       target={[0, 10, -10]}
       enableZoom={false}
       enablePan={false}
+      maxPolarAngle={2.2}
     />
   );
 }
@@ -120,7 +132,10 @@ function Scene() {
 
 function App() {
   return (
-    <div className="w-screen h-screen bg-gray-900 text-white">
+    <div className="w-screen h-screen bg-gray-900 text-white flex flex justify-center ">
+      <div className=" h-[80px] bg-green-300 bg- mb-[30px]  z-10 flex fixed bottom-0">
+        Hi! Follow me to a place lol
+      </div>
       <KeyboardControls
         map={[
           { name: "forward", keys: ["KeyW", "ArrowUp"] },

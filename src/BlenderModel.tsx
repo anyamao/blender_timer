@@ -6,7 +6,7 @@ import { Mesh } from "three";
 const BlenderModel = () => {
   const meshRef = useRef<Mesh>(null);
 
-  const gltf = useLoader(GLTFLoader, "/Timer_mockup_1.glb");
+  const gltf = useLoader(GLTFLoader, "/Timer_mockup_2.glb");
 
   return (
     <primitive
